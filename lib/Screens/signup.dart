@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:agri_ai_connect/Screens/login.dart';
+import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -57,7 +59,7 @@ class _Signup extends ConsumerState<Signup> {
           'gender': gender,
           'address': address,
           'pincode': pincode,
-          'crops': selectedCrops,
+          'currentCrop': selectedCrops,
         }),
       );
 
@@ -68,6 +70,7 @@ class _Signup extends ConsumerState<Signup> {
         final token = data['token'];
         print(token);
         print("Sign up Successful");
+        ref.read(tokenProvider.notifier).state;
         Navigator.push(
           context,
           MaterialPageRoute(builder: (ctx) => TabsScreen()),
@@ -180,7 +183,14 @@ class _Signup extends ConsumerState<Signup> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: _signup,
+                            onPressed: () async{
+                               await _signup;
+                               Navigator.push(
+                                   context, MaterialPageRoute(
+                                   builder: (ctx) => TabsScreen(),
+                              )
+                               );
+                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.teal,
                               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -322,7 +332,7 @@ class _Signup extends ConsumerState<Signup> {
   }
 
   Widget _buildCropsSelection() {
-    final crops = ['Rice', 'Wheat', 'Corn']; // Example crops
+    final currentCrop = ['Rice', 'Wheat', 'Corn'];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -336,7 +346,7 @@ class _Signup extends ConsumerState<Signup> {
         SizedBox(height: 8.0), // Add some spacing between the label and the chips
         Wrap(
           spacing: 8.0,
-          children: crops.map((crop) {
+          children: currentCrop.map((crop) {
             return ChoiceChip(
               label: Text(crop),
               selected: selectedCrops.contains(crop),

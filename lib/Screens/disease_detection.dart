@@ -1,15 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:file_picker/file_picker.dart';
+// import 'package:http/http.dart' as http;
 
-class DiseaseDetectionScreen extends StatefulWidget {
+import '../Provider/disease_provider.dart';
+
+class DiseaseDetectionScreen extends ConsumerStatefulWidget {
   const DiseaseDetectionScreen({super.key});
 
   @override
   _DiseaseDetectionScreenState createState() => _DiseaseDetectionScreenState();
 }
 
-class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
+class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen> {
   double _opacity = 0.0;
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -17,7 +23,6 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
   @override
   void initState() {
     super.initState();
-    // Trigger the fade-in effect after the screen is built.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _opacity = 1.0;
@@ -42,8 +47,11 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
       setState(() {
         _image = File(image.path);
       });
+      await ref.read(diseaseProvider.notifier).uploadFile(context, _image!);
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +83,13 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
-              ElevatedButton.icon(
-                onPressed: _captureImage,
+              ElevatedButton.icon  (
+                onPressed:  () async {
+                  await _captureImage;
+                  const CircularProgressIndicator();
+                  _uploadImage;
+
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
@@ -162,3 +175,21 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
     );
   }
 }
+
+// Consumer(
+// builder: (context, watch, _) {
+// final diseaseState = watch(diseaseProvider);
+//
+// return diseaseState.when(
+// data: (disease) {
+// if (disease != null) {
+// return Text('Disease: ${disease.disease}');
+// } else {
+// return Text('No disease data');
+// }
+// },
+// loading: () => CircularProgressIndicator(),
+// error: (err, stack) => Text('Error: $err'),
+// );
+// },
+// )

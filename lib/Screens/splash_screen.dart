@@ -1,6 +1,8 @@
 // import 'package:agri_ai_connect/Screens/image_sliding.dart';
 import 'package:flutter/material.dart';
 
+import 'image_sliding.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -12,10 +14,11 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // Navigate to the next screen after 3 seconds
     Future.delayed(Duration(seconds: 3), () {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => ImageSliding()),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ImageSliding(),
+      ),
+      );
     });
   }
 
