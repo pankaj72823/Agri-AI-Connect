@@ -1,136 +1,33 @@
-import 'package:agri_ai_connect/Screens/home_page.dart';
-import 'package:agri_ai_connect/Screens/tabs_screen.dart';
+// import 'package:agri_ai_connect/Screens/image_sliding.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 1.0, end: 0.5).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+    // Navigate to the next screen after 3 seconds
+    Future.delayed(Duration(seconds: 3), () {
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => ImageSliding()),
+      // );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.teal.shade600, Colors.green.shade700],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FadeTransition(
-                opacity: _animation,
-                child: CircleAvatar(
-                  radius: 140,
-                  backgroundImage: AssetImage('assets/splash/splash.jpg'),
-                ),
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                'Welcome to Agri AI Connect',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(1, 1),
-                      blurRadius: 2,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const Text(
-                'Companion of Farmers',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Filled circle
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 10), // Space between dots
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white), // Outlined circle
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 10), // Space between dots
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white), // Outlined circle
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  ElevatedButton(onPressed: () => Navigator.push(
-              context, MaterialPageRoute(
-                builder: (ctx)=> TabsScreen(),
-              ),
-              ),
-                      child: Text('Home Page'),
-                  ),
-                ],
-              )
-            ],
-          ),
+      backgroundColor: Colors.green, // Set your background color here
+      body: Center(
+        child: Container(
+          width: 300, // Set the desired width for the logo
+          height: 300, // Set the desired height for the logo
+          child: Image.asset('assets/splash/logo.png'), // Display your logo
         ),
       ),
     );
