@@ -14,7 +14,6 @@ export const data = wrapAsync(async(req,res)=>{
     });
     req.body.farmer_id = userId
     delete req.body.token;
-    console.log(req.body)
     const data = new Data(req.body);
     await data.save();
     res.send(data)

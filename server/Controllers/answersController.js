@@ -4,7 +4,7 @@ import Question  from "../Models/Question.js";
 import Answer from "../Models/Answer.js";
 import axios from "axios";
 import { response } from "express";
-const jwtSecret = "EcoCred#Carbon@X"
+const jwtSecret = process.env.jwtSecret
 
 export const answers = wrapAsync(async (req, res) => {
     const { token, data } = req.body;

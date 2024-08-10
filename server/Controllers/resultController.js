@@ -5,7 +5,7 @@ import wrapAsync from "../Utils/wrapAsync.js";
 import jwt from "jsonwebtoken"
 import  Answer  from "../Models/Answer.js";
 import User from '../Models/User.js';
-const jwtSecret = "EcoCred#Carbon@X"
+const jwtSecret = process.env.jwtSecret
 
 
 const r1 = readline.createInterface({
