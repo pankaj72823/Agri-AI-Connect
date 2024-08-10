@@ -95,7 +95,6 @@ Future<Disease?> _uploadFileToServer(BuildContext context, File file) async {
   request.files.add(await http.MultipartFile.fromPath('file', file.path));
 
   var response = await request.send();
-
   if (response.statusCode == 200) {
     var responseData = await response.stream.bytesToString();
     final jsonData = jsonDecode(responseData) as Map<String, dynamic>;
