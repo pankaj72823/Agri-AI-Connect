@@ -36,7 +36,7 @@ class CarbonCreditsJoin extends StatelessWidget{
           const SizedBox(height: 20,),
           ElevatedButton(onPressed: ()=>  Navigator.push(
             context,
-            MaterialPageRoute(builder: (ctx) => CarbonCreditMarketplace(),),
+            MaterialPageRoute(builder: (ctx) => CarbonCreditsJoin(),),
           ),
             style: ElevatedButton.styleFrom(
               side: BorderSide(width: 2 , color: Colors.black),
