@@ -1,5 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:agri_ai_connect/Widgets/Disease%20Detection/results.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DiseaseDetectionScreen extends StatefulWidget {
   const DiseaseDetectionScreen({super.key});
@@ -10,6 +11,8 @@ class DiseaseDetectionScreen extends StatefulWidget {
 
 class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
   double _opacity = 0.0;
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -20,6 +23,26 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
         _opacity = 1.0;
       });
     });
+  }
+
+  Future<void> _captureImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+  }
+
+  Future<void> _uploadImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
   }
 
   @override
@@ -34,9 +57,9 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
             children: [
               const SizedBox(height: 30),
               Text(
-                'AI Disease Detection',
+                'AI Crop Disease Detection',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.teal[700],
                 ),
@@ -52,88 +75,86 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
-                    ),
-                    icon: const Icon(Icons.photo_library, color: Colors.white),
-                    label: const Text('Upload from Gallery',style:  TextStyle(color: Colors.white),
-                    )
-                    ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Handle Capture with Camera
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                    ),
-                    icon: const Icon(Icons.camera_alt, color: Colors.white),
-                    label: const Text('Capture with Camera', style:  TextStyle(color: Colors.white),),
+              ElevatedButton.icon(
+                onPressed: _captureImage,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                ],
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
+                icon: const Icon(Icons.camera_alt, color: Colors.white),
+                label: const Text(
+                  'Capture with Camera',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              const SizedBox(height: 30),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
+              SizedBox(height: 15),
+              Text(
+                "Or",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
+              ElevatedButton.icon(
+                onPressed: _uploadImage,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Image.asset(
-                    'assets/splash/splash.jpg',
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
+                icon: const Icon(Icons.photo, color: Colors.white),
+                label: const Text(
+                  'Upload from Gallery',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(height: 30),
-              // AnimatedOpacity(
-              //   opacity: _opacity,
-              //   duration: const Duration(seconds: 2),
-              //   child: Container(
-              //     padding: const EdgeInsets.all(16),
-              //     decoration: BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.circular(16),
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.black12,
-              //           blurRadius: 8,
-              //           offset: Offset(0, 4),
-              //         ),
-              //       ],
-              //     ),
-              //     child: Results(
-              //       detectedDisease: 'Leaf Blight',
-              //       suggestions: [
-              //         'Use a fungicide to treat the affected area.',
-              //         'Ensure proper irrigation to avoid waterlogging.',
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              if (_image != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Image.file(
+                      _image!,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              else
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      'assets/splash/splash.jpg',
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 30),
             ],
           ),
         ),

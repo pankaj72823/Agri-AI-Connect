@@ -1,5 +1,7 @@
+import 'package:agri_ai_connect/Screens/carbon_credits_join.dart';
 import 'package:agri_ai_connect/Screens/disease_detection.dart';
 import 'package:agri_ai_connect/Screens/home_page.dart';
+import 'package:agri_ai_connect/Screens/learning1.dart';
 import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,8 @@ class _TabsScreen extends State<TabsScreen>{
   final List<Widget> screen = [
     HomePage(),
     DiseaseDetectionScreen(),
+    CarbonCreditsJoin(),
+    learning1(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -84,14 +88,14 @@ class _TabsScreen extends State<TabsScreen>{
               ),
             IconButton(onPressed: (){
               setState(() {
-                currentIndex = 3;
+                currentIndex = 4;
               });
             },
               icon: Icon(Icons.assessment),
             ),
             IconButton(onPressed: (){
               setState(() {
-                currentIndex = 4;
+                currentIndex = 3;
               });
             },
               icon: Icon(Icons.school),
