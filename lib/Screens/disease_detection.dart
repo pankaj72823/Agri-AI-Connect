@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:agri_ai_connect/Provider/disease_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:http/http.dart' as http;
-import 'package:agri_ai_connect/Widgets/Disease Detection/Results.dart';
-import '../Provider/disease_provider.dart';
+import 'package:agri_ai_connect/Widgets/DiseaseDetection/results.dart';
 
 class DiseaseDetectionScreen extends ConsumerStatefulWidget {
   const DiseaseDetectionScreen({super.key});
@@ -47,11 +44,17 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
       setState(() {
         _image = File(image.path);
       });
+
+      // Upload the image and fetch disease details
       await ref.read(diseaseProvider.notifier).uploadFile(context, _image!);
+
+      // Navigate to the Results screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Results()),
+      );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,22 +86,17 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
-              ElevatedButton.icon  (
-                onPressed:  () async {
-      
-                  await _captureImage;
-                  const CircularProgressIndicator();
-                  _uploadImage;
-                  
-
+              ElevatedButton.icon(
+                onPressed: () async {
+                  await _captureImage();
+                  _uploadImage();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 ),
                 icon: const Icon(Icons.camera_alt, color: Colors.white),
                 label: const Text(
@@ -106,21 +104,22 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 "Or",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               ElevatedButton.icon(
-                onPressed: _uploadImage,
+                onPressed: () async {
+                  await _uploadImage();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 ),
                 icon: const Icon(Icons.photo, color: Colors.white),
                 label: const Text(
@@ -128,14 +127,12 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Results(),
-        
+              const SizedBox(height: 20),
               if (_image != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
@@ -155,7 +152,7 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black26,
@@ -172,7 +169,6 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                   ),
                 ),
               const SizedBox(height: 10),
-            
             ],
           ),
         ),
@@ -180,21 +176,3 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
     );
   }
 }
-
-// Consumer(
-// builder: (context, watch, _) {
-// final diseaseState = watch(diseaseProvider);
-//
-// return diseaseState.when(
-// data: (disease) {
-// if (disease != null) {
-// return Text('Disease: ${disease.disease}');
-// } else {
-// return Text('No disease data');
-// }
-// },
-// loading: () => CircularProgressIndicator(),
-// error: (err, stack) => Text('Error: $err'),
-// );
-// },
-// )

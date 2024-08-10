@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:agri_ai_connect/Provider/token_provider.dart';
 import 'package:agri_ai_connect/Screens/login.dart';
 import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -70,11 +71,12 @@ class _Signup extends ConsumerState<Signup> {
         final token = data['token'];
         print(token);
         print("Sign up Successful");
-        ref.read(tokenProvider.notifier).state;
+        ref.read(userTokenProvider.notifier).setToken(token);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (ctx) => TabsScreen()),
         );
+
       } else {
         print("There is an error");
       }

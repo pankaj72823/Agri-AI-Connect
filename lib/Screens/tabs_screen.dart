@@ -20,7 +20,7 @@ class _TabsScreen extends State<TabsScreen>{
 
   final List<Widget> screen = [
     HomePage(),
-    DiseaseDetectionScreen(),
+   const  DiseaseDetectionScreen(),
     CarbonCreditsJoin(),
     learning1(),
   ];
