@@ -12,7 +12,7 @@ const storage = diskStorage({
 });
 
 // const fileFilter = (req, file, cb) => {
-//   console.log(file.originalname);
+
 //   const fileTypes = /jpeg|jpg|png|gif/;
 //   const extname = fileTypes.test(_extname(file.originalname).toLowerCase());
 //   const mimetype = fileTypes.test(file.mimetype);
@@ -22,7 +22,6 @@ const storage = diskStorage({
 //   } else {
 //     cb('Error: Only images are allowed!');
 //   }
-
 // };
 
 const limits = {

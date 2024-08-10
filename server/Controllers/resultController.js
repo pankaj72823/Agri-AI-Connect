@@ -39,7 +39,7 @@ async function run(data){
         }   
     })
     async function askAndRespond(){
-                const message = `I will provide you with JSON data containing various categories. Your task is to calculate the carbon credits for each category based on this data and predefined reduction factors. Also, provide only 3 suggestions for improvements. The result should be as accurate as possible, but an approximate value is acceptable. Ensure that your response is formatted according to the structure provided in the following format: ${JSON.stringify(format)} and no string allowed as an answer. Write the answer in numbers with the unit in tons of CO2. Here is the JSON data: ${JSON.stringify(data)}.`
+                const message = `I will provide you with JSON data containing various categories. Your task is to calculate the carbon credits for each category based on this data and predefined reduction factors so digits are not big. Also, provide only 3 suggestions for improvements. The result should be as accurate as possible, but an approximate value is acceptable. Ensure that your response is formatted according to the structure provided in the following format: ${JSON.stringify(format)} and no string allowed as an answer. Write the answer in numbers with the unit in tons of CO2. Here is the JSON data: ${JSON.stringify(data)}.`
                 const result = await chat.sendMessage(message);
                 const response = await result.response
                 const text = response.text();
@@ -51,12 +51,14 @@ async function run(data){
 
 const format = 
 {
-    "Crop Management": 0.9,
-    "Soil Management": 0.15,
-    "Water Usage": 0.2,
-    "Energy Use": 1.5,
-    "Waste Management": 0.3,
-    "totalCarbonCredits": 2.35
+    "Crop_Management": "numbers only in tons of Co2 as a unit No string allowed",
+    "Soil_Management": "numbers only in tons of Co2 as a unit No string allowed",
+    "Water_Usage": "numbers only in tons of Co2 as a unit No string allowed",
+    "Energy_Use": "numbers only in tons of Co2 as a unit No string allowed",
+    "Waste_Management": "numbers only in tons of Co2 as a unit No string allowed",
+    "total": "numbers only in tons of Co2 as a unit No string allowed",
+    "suggestions" : "Array of suggestions"
+
   }
   
 
@@ -84,7 +86,6 @@ export const result = wrapAsync(async(req,res)=>{
     const result =await run(detailAnswere)
     let currentTimestamp = Date.now();
     let currentDate = new Date(currentTimestamp);
-    console.log(result)
     const updatedCarbonFootprint = {
         'carbon_credits.Crop_Management': result.Crop_Management,
         'carbon_credits.Soil_Management': result.Soil_Management,
@@ -95,7 +96,6 @@ export const result = wrapAsync(async(req,res)=>{
         'carbon_credits.suggestions': result.suggestions,
         'carbon_credits.last_tracked': currentDate.toLocaleString()
       };
-      console.log(updatedCarbonFootprint)
     const updatedUser = await User.updateOne({ _id: userId }, { $set: updatedCarbonFootprint });
     res.status(200).send(result)
 })
