@@ -44,7 +44,7 @@ export const answers = wrapAsync(async (req, res) => {
         console.error('Error inserting responses:', error);
         return res.status(500).send('Error saving answers');
     }
-    return res.send("Done")
+    // return res.send("Done")
     // Call the result route
     const url = 'http://localhost:5050/answers/result';
     try {
