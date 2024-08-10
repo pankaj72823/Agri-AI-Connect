@@ -13,6 +13,7 @@ import { uploadRouter } from './Router/uploadRouter.js';
 import { questionRouter } from './Router/quetionRouter.js';
 import { answersRouter } from './Router/answersRouter.js';
 import { userRouter } from './Router/userRouter.js';
+import { dataRouter } from './Router/dataRouter.js';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))
@@ -34,6 +35,7 @@ app.use('/upload', uploadRouter)
 app.use('/question',questionRouter)
 app.use('/answers',answersRouter)
 app.use('/user',userRouter)
+app.use('/data',dataRouter)
 app.get('/',(req,res)=>{
     res.send("hello")
 })

@@ -28,15 +28,29 @@ def predict():
     predicted_class_index = np.argmax(prediction[0])
 
     # Class names
-    class_name = ['Apple__Apple_scab', 'Apple_Black_rot', 'Apple_Cedar_apple_rust', 'Apple__healthy',
-                    'Blueberry__healthy', 'Cherry(including_sour)_Powdery_mildew', 
-                    'Cherry_(including_sour)healthy', 'Corn(maize)_Cercospora_leaf_spot Gray_leaf_spot', 
-                    'Corn_(maize)Common_rust', 'Corn_(maize)Northern_Leaf_Blight', 'Corn(maize)_healthy', 
-                    'Grape__Black_rot', 'Grape_Esca(Black_Measles)', 'Grape__Leaf_blight(Isariopsis_Leaf_Spot)', 
-                    'Grape__healthy', 'Orange_Haunglongbing(Citrus_greening)', 'Peach___Bacterial_spot',
-                    'Peach__healthy', 'Pepper,_bell_Bacterial_spot', 'Pepper,_bell__healthy', 
-                    'Potato___Early_blight']
-
+    class_name =  [
+    'Apple Apple scab',
+    'Apple Black rot',
+    'Apple Cedar apple rust',
+    'Apple healthy',
+    'Blueberry healthy',
+    'Cherry (including sour) Powdery mildew',
+    'Cherry (including sour) healthy',
+    'Corn (maize) Cercospora leaf spot Gray leaf spot',
+    'Corn (maize) Common rust',
+    'Corn (maize) Northern Leaf Blight',
+    'Corn (maize) healthy',
+    'Grape Black rot',
+    'Grape Esca (Black Measles)',
+    'Grape Leaf blight (Isariopsis Leaf Spot)',
+    'Grape healthy',
+    'Orange Haunglongbing (Citrus greening)',
+    'Peach Bacterial spot',
+    'Peach healthy',
+    'Pepper, bell Bacterial spot',
+    'Pepper, bell healthy',
+    'Potato Early blight'
+]
     return jsonify({'predicted_class': class_name[predicted_class_index]})
 
 if __name__ == '__main__':

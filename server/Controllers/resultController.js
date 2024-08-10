@@ -39,7 +39,7 @@ async function run(data){
         }   
     })
     async function askAndRespond(){
-                const message = `I will provide you with JSON data containing various categories. Your task is to calculate the carbon credits for each category based on this data and predefined reduction factors. Also, provide only 3 suggestions for improvements. The result should be as accurate as possible, but an approximate value is acceptable. Ensure that your response is formatted according to the structure provided in the following format: ${JSON.stringify(format)} and no string allowed as an answer. Write the answer in numbers with the unit in tons of CO2. Here is the JSON data: ${JSON.stringify(data)}.`
+                const message = `I will provide you with JSON data containing various categories. Your task is to calculate the carbon credits for each category based on this data and predefined reduction factors so digits are not big. Also, provide only 3 suggestions for improvements. The result should be as accurate as possible, but an approximate value is acceptable. Ensure that your response is formatted according to the structure provided in the following format: ${JSON.stringify(format)} and no string allowed as an answer. Write the answer in numbers with the unit in tons of CO2. Here is the JSON data: ${JSON.stringify(data)}.`
                 const result = await chat.sendMessage(message);
                 const response = await result.response
                 const text = response.text();
