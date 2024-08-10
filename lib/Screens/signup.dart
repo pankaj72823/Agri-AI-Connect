@@ -48,7 +48,7 @@ class _Signup extends ConsumerState<Signup> {
       final pincode = pincodeController.text;
 
       final response = await http.post(
-        Uri.parse("http://localhost:5050/auth/signup"),
+        Uri.parse("http://192.168.173.164:5050/auth/signup"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': name,
@@ -184,7 +184,7 @@ class _Signup extends ConsumerState<Signup> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () async{
-                               await _signup;
+                               await _signup();
                                Navigator.push(
                                    context, MaterialPageRoute(
                                    builder: (ctx) => TabsScreen(),

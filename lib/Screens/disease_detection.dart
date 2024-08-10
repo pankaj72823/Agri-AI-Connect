@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:file_picker/file_picker.dart';
 // import 'package:http/http.dart' as http;
-
+import 'package:agri_ai_connect/Widgets/Disease Detection/Results.dart';
 import '../Provider/disease_provider.dart';
 
 class DiseaseDetectionScreen extends ConsumerStatefulWidget {
@@ -85,9 +85,11 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
               const SizedBox(height: 30),
               ElevatedButton.icon  (
                 onPressed:  () async {
+      
                   await _captureImage;
                   const CircularProgressIndicator();
                   _uploadImage;
+                  
 
                 },
                 style: ElevatedButton.styleFrom(
@@ -126,7 +128,9 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
+              const Results(),
+        
               if (_image != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
@@ -167,7 +171,8 @@ class _DiseaseDetectionScreenState extends ConsumerState<DiseaseDetectionScreen>
                     ),
                   ),
                 ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
+            
             ],
           ),
         ),

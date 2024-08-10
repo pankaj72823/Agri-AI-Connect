@@ -88,9 +88,11 @@ class DiseaseNotifier extends StateNotifier<AsyncValue<Disease?>> {
 }
 
 Future<Disease?> _uploadFileToServer(BuildContext context, File file) async {
+  print(file);
+  print(file.path);
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://your-server-url/upload'),
+    Uri.parse('http://192.168.173.164:5050/upload'),
   );
   request.files.add(await http.MultipartFile.fromPath('file', file.path));
 

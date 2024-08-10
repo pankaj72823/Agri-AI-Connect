@@ -37,10 +37,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    currentCrop: {
+    currentCrop: [{
         type: String,
         required: true
-    },
+    }],
     carbon_credits: {
         Crop_Management: {
             type: Number,

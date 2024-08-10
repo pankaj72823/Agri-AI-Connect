@@ -11,18 +11,19 @@ const storage = diskStorage({
   }
 });
 
-const fileFilter = (req, file, cb) => {
+// const fileFilter = (req, file, cb) => {
+//   console.log(file.originalname);
+//   const fileTypes = /jpeg|jpg|png|gif/;
+//   const extname = fileTypes.test(_extname(file.originalname).toLowerCase());
+//   const mimetype = fileTypes.test(file.mimetype);
 
-  const fileTypes = /jpeg|jpg|png|gif/;
-  const extname = fileTypes.test(_extname(file.originalname).toLowerCase());
-  const mimetype = fileTypes.test(file.mimetype);
+//   if (mimetype && extname) {
+//     return cb(null, true);
+//   } else {
+//     cb('Error: Only images are allowed!');
+//   }
 
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb('Error: Only images are allowed!');
-  }
-};
+// };
 
 const limits = {
   fileSize: 1024 * 1024 * 50 
@@ -31,7 +32,7 @@ const limits = {
 
 const upload = multer({
   storage: storage,
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
   limits: limits
 });
 

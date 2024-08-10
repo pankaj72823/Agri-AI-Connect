@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +31,7 @@ class _Login extends ConsumerState<Login> {
       final password = passwordController.text;
 
       final response = await http.post(
-        Uri.parse("http://localhost:5050/auth/login"),
+        Uri.parse("http://192.168.173.164:5050/auth/login"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'username': username,
@@ -121,7 +122,11 @@ class _Login extends ConsumerState<Login> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: _login,
+                            onPressed:() async  { 
+                              await _login();
+                              TabsScreen();
+
+                              },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.teal,
                               padding: EdgeInsets.symmetric(vertical: 16.0),
