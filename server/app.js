@@ -12,6 +12,7 @@ import { authRouter } from './Router/authRouter.js';
 import { uploadRouter } from './Router/uploadRouter.js';
 import { questionRouter } from './Router/quetionRouter.js';
 import { answersRouter } from './Router/answersRouter.js';
+import { userRouter } from './Router/userRouter.js';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))
@@ -32,6 +33,7 @@ app.use('/auth' ,authRouter)
 app.use('/upload', uploadRouter)
 app.use('/question',questionRouter)
 app.use('/answers',answersRouter)
+app.use('/user',userRouter)
 app.get('/',(req,res)=>{
     res.send("hello")
 })

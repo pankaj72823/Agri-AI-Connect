@@ -2,7 +2,7 @@ import User from "../Models/User.js"
 import jwt from 'jsonwebtoken'
 import wrapAsync from "../Utils/wrapAsync.js"
 
-const jwtSecret = "EcoCred#Carbon@X"
+const jwtSecret = process.env.jwtSecret
 
 export const signup =wrapAsync( async(req,res)=>{
     const {username}=req.body
