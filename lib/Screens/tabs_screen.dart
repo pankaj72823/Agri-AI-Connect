@@ -1,3 +1,6 @@
+import 'package:agri_ai_connect/Screens/disease_detection.dart';
+import 'package:agri_ai_connect/Screens/home_page.dart';
+import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabsScreen extends StatefulWidget{
@@ -14,7 +17,8 @@ class _TabsScreen extends State<TabsScreen>{
   int currentIndex = 0;
 
   final List<Widget> screen = [
-
+    HomePage(),
+    DiseaseDetectionScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class _TabsScreen extends State<TabsScreen>{
 
         leading: IconButton(onPressed: () =>Navigator.push(
           context, MaterialPageRoute(
-          builder: (ctx) => Profile(),
+          builder: (ctx) => SplashScreen(),
         ),
         ),
           icon: Icon(Icons.person, size: 35,),
@@ -68,30 +72,33 @@ class _TabsScreen extends State<TabsScreen>{
                 currentIndex = 1;
               });
             },
-              icon: ImageIcon(AssetImage('lib/assets/Icons/target.png'),),
+              icon: Icon(Icons.camera),
             ),
             IconButton(onPressed: (){
               setState(() {
                 currentIndex = 2;
               });
             },
-              icon: ImageIcon(AssetImage('lib/assets/Icons/reward.png'),),
-            ),
+              icon: Icon(Icons.eco),
+
+              ),
             IconButton(onPressed: (){
               setState(() {
                 currentIndex = 3;
               });
             },
-              icon: ImageIcon(AssetImage('lib/assets/Icons/investment.png'),),
+              icon: Icon(Icons.assessment),
             ),
             IconButton(onPressed: (){
               setState(() {
                 currentIndex = 4;
               });
             },
-              icon: ImageIcon(AssetImage('lib/assets/Icons/shopping.png'),),
+              icon: Icon(Icons.school),
             ),
-          ],
+
+
+          ]
         ),
 
 

@@ -1,3 +1,5 @@
+import 'package:agri_ai_connect/Screens/home_page.dart';
+import 'package:agri_ai_connect/Screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -114,7 +116,19 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ],
               ),
+
               const SizedBox(height: 30),
+              Row(
+                children: [
+                  ElevatedButton(onPressed: () => Navigator.push(
+              context, MaterialPageRoute(
+                builder: (ctx)=> TabsScreen(),
+              ),
+              ),
+                      child: Text('Home Page'),
+                  ),
+                ],
+              )
             ],
           ),
         ),
