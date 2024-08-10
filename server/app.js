@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
+dotenv.config();
 import multer from 'multer';
 import {spawn} from 'child_process'
-dotenv.config();
 
 import express from 'express'
 import './config/multer.js'
@@ -14,6 +14,7 @@ import { questionRouter } from './Router/quetionRouter.js';
 import { answersRouter } from './Router/answersRouter.js';
 import { userRouter } from './Router/userRouter.js';
 import { dataRouter } from './Router/dataRouter.js';
+import {storage} from "./config/cloudConfig.js"
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))

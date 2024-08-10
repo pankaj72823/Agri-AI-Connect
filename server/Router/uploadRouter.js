@@ -79,14 +79,28 @@ const format =
       "<Suggestion 3>"
     ]
   }
-  
-async function predictImage(imagePath) {
+
+async function downloadImage(url) {
+    const response = await axios({
+        url,
+        responseType: 'stream',
+    });
+    return response.data;
+}
+
+async function predictImage(imageUrl) {
     const form = new FormData();
-    form.append('image', createReadStream(imagePath));
-    console.log("sent")
+
     try {
+        // Download image from URL
+        const imageStream = await downloadImage(imageUrl);
+        
+        // Append the downloaded image to form data
+        form.append('image', imageStream, { filename: 'image.jpg' });
+
+        console.log("Sent");
         // Send POST request to the Flask API
-        const response = await axios.post('http://127.0.0.1:8000/predict', form, {
+        const response = await axios.post('https://flask-api1-vcyt.onrender.com/predict', form, {
             headers: {
                 ...form.getHeaders()
             }
@@ -94,9 +108,9 @@ async function predictImage(imagePath) {
 
         // Handle the response
         console.log('Predicted Class:', response.data.predicted_class);
-        return response.data.predicted_class
+        return response.data.predicted_class;
     } catch (error) {
-        console.error('Error during prediction:', error.response ? error.response.data : error.message);
+        console.error('Error during prediction:', error);
     }
 }
 
