@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:agri_ai_connect/Provider/answers_provider.dart';
+import 'package:agri_ai_connect/Provider/questions_provider.dart';
+import 'package:agri_ai_connect/Provider/token_provider.dart';
 import 'package:agri_ai_connect/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,6 +46,8 @@ class _Login extends ConsumerState<Login> {
         final data = jsonDecode(response.body);
         final token = data['token'];
         ref.read(tokenProvider.notifier).state = token;
+        ref.read(answersProvider.notifier).setToken(token);
+        ref.read(userTokenProvider.notifier).setToken(token);
         print('Login Successful');
         Navigator.push(
           context,

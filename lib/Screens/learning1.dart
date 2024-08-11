@@ -1,4 +1,5 @@
 import 'package:agri_ai_connect/Screens/learning_videos.dart';
+import 'package:agri_ai_connect/Screens/news_videos.dart';
 import 'package:flutter/material.dart';
 
 class learning1 extends StatelessWidget {
@@ -8,7 +9,7 @@ class learning1 extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Align(alignment: Alignment.center,
-            child: Text('Farmer Information',
+            child: Text('Information for Farmers',
               style: TextStyle(color: Colors.teal[700], fontSize: 24, fontWeight: FontWeight.bold),
             ),
 
@@ -36,7 +37,12 @@ class learning1 extends StatelessWidget {
             ),
             // Button 1: Agriculture News
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () =>  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => NewsScreen(),
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange, // Button color
                 shape: RoundedRectangleBorder(

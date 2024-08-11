@@ -1,75 +1,51 @@
-import 'package:agri_ai_connect/Provider/token_provider.dart';
-import 'package:agri_ai_connect/Screens/login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-final questionsProvider = FutureProvider<List<dynamic>>((ref) async {
-  final response = await http.get(Uri.parse('http://192.168.173.164:5050/question'));
-  if (response.statusCode == 200) {
-    return json.decode(response.body);
-  } else {
-    throw Exception('Failed to load questions');
-  }
-});
+// Define the Question model
+class Question {
+  final String question;
+  final String type;
+  final List<String> options;
+  final String category;
 
+  Question({
+    required this.question,
+    required this.type,
+    required this.options,
+    required this.category,
+  });
 
-final questionnaireProvider = StateNotifierProvider<QuestionnaireNotifier, Map<String, dynamic>>((ref) {
-  return QuestionnaireNotifier();
-});
-
-class QuestionnaireNotifier extends StateNotifier<Map<String, dynamic>> {
-  QuestionnaireNotifier() : super({});
-
-  void addAnswer(String question, dynamic answer) {
-    state = {
-      ...state,
-      question: answer,
-    };
-  }
-
-    //
-    // Future<void> submitAnswers() async {
-    //
-    //   final token = ref.watch(userTokenProvider)
-    //   final response = await http.post(
-    //     Uri.parse('http://localhost:5050/answers'),
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: jsonEncode(<String, dynamic>{
-    //       'token': _token,
-    //       'data': state,
-    //     }),
-    //   );
-    //
-    //   if (response.statusCode == 200) {
-    //     print("Successful");
-    //
-    //   } else {
-    //     print("Error is there");
-    //   }
-    // }
-  Future<void> submitAnswers() async {
-
-
-
-    final response = await http.post(
-      Uri.parse('http://localhost:5050/answers'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'data': state,
-      }),
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      question: json['question'],
+      type: json['type'],
+      options: List<String>.from(json['options']),
+      category: json['category'],
     );
-
-    if (response.statusCode == 200) {
-      print("Successful");
-    } else {
-      print("Error: ${response.statusCode}");
-    }
   }
-
 }
 
+// Define the QuestionService
+class QuestionService {
+  final String apiUrl = 'http://192.168.173.164:5050/question'; // Replace with your actual API endpoint
+
+  Future<List<Question>> fetchQuestions() async {
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => Question.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load questions');
+    }
+  }
+}
+
+// Define the providers
+final questionServiceProvider = Provider((ref) => QuestionService());
+
+final questionsProvider = FutureProvider<List<Question>>((ref) async {
+  final questionService = ref.read(questionServiceProvider);
+  return await questionService.fetchQuestions();
+});

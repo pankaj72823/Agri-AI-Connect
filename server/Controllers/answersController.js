@@ -4,12 +4,12 @@ import Question  from "../Models/Question.js";
 import Answer from "../Models/Answer.js";
 import axios from "axios";
 import { response } from "express";
-const jwtSecret = "EcoCred#Carbon@X"
+const jwtSecret = process.env.jwtSecret
 
 export const answers = wrapAsync(async (req, res) => {
     const { token, data } = req.body;
     let userId;
-
+    console.log(req.body);
     // Verify token
     try {
         const decoded = jwt.verify(token, jwtSecret);
@@ -17,7 +17,7 @@ export const answers = wrapAsync(async (req, res) => {
     } catch (err) {
         return res.status(401).send('Invalid token');
     }
-
+    console.log(data)
     // Retrieve all questions in one query
     const questionTexts = data.map(userAnswer => userAnswer.question);
     const questions = await Question.find({ question: { $in: questionTexts } }).lean();
@@ -36,16 +36,19 @@ export const answers = wrapAsync(async (req, res) => {
             questionId: questionMap[userAnswer.question],
             answer: userAnswer.answer
         }));
+    console.log(responses)
 
     // Bulk insert responses
     try {
-        await Answer.insertMany(responses);
+        const ans = await Answer.insertMany(responses);
+        console.log(ans)
     } catch (error) {
         console.error('Error inserting responses:', error);
         return res.status(500).send('Error saving answers');
     }
     // return res.send("Done")
     // Call the result route
+    
     const url = 'http://localhost:5050/answers/result';
     try {
         const response = await axios.post(url, { token });

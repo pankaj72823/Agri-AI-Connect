@@ -1,5 +1,9 @@
 
+import 'package:agri_ai_connect/Provider/disease_provider.dart';
+import 'package:agri_ai_connect/Screens/disease_detection.dart';
 import 'package:flutter/material.dart';
+
+import 'agro_bot.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -64,8 +68,13 @@ class HomePage extends StatelessWidget {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
-                
-                  // Navigate to AI-based disease detection page
+               Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>DiseaseDetectionScreen(),
+            ),
+          );
+        
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
@@ -98,6 +107,23 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AgroBotScreen(),
+            ),
+          );
+        },
+        backgroundColor: Colors.red[400],
+        child: Image.asset(
+          'assets/intial_img/Chatbot1.png', // Replace with the correct path to your chatbot image
+          height: 70,
+          width: 70,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

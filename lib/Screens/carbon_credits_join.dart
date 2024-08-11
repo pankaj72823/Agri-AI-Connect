@@ -1,4 +1,6 @@
 import 'package:agri_ai_connect/Screens/carbon_credits_marketplace.dart';
+import 'package:agri_ai_connect/Screens/question_screen.dart';
+// import 'package:agri_ai_connect/Screens/question_screen.dart';
 import 'package:flutter/material.dart';
 
 class CarbonCreditsJoin extends StatelessWidget{
@@ -36,7 +38,7 @@ class CarbonCreditsJoin extends StatelessWidget{
           const SizedBox(height: 20,),
           ElevatedButton(onPressed: ()=>  Navigator.push(
             context,
-            MaterialPageRoute(builder: (ctx) => CarbonCreditsJoin(),),
+            MaterialPageRoute(builder: (ctx) => QuestionsScreen(),),
           ),
             style: ElevatedButton.styleFrom(
               side: BorderSide(width: 2 , color: Colors.black),

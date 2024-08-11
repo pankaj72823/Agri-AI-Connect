@@ -2,16 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AnswersProvider extends StateNotifier<List<Map<String, dynamic>>> {
-  AnswersProvider() : super([]);
-  String? _token;
 
-  void setToken(String token) {
+
+class AnswersNotifier extends StateNotifier<List<Map<String, String>>> {
+  AnswersNotifier() : super([]);
+
+  String? _token;
+  void setToken(String token){
     _token = token;
   }
 
-  void addAnswer(String question, dynamic answer) {
-    state = [
+  void addAnswer(String question, String answer) {
+     state = [
       for (final answer in state)
         if (answer['question'] != question) answer,
       {'question': question, 'answer': answer},
@@ -20,33 +22,25 @@ class AnswersProvider extends StateNotifier<List<Map<String, dynamic>>> {
 
   Future<void> submitAnswers() async {
     final response = await http.post(
-      Uri.parse('http://l192.168.173.164:5050/answers'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'token': _token,
-        'data': state,
-      }),
+      Uri.parse('http://192.168.173.164:5050/answers'),
+      headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(<String, dynamic>{
+          'token': _token,
+          'data': state,
+        }),
     );
 
-    if (response.statusCode == 200) {
-      print("Successful");
-    } else {
-      print("Error is there");
+    if (response.statusCode != 200) {
+      throw Exception('Failed to submit answers');
     }
   }
 
-  // Dummy data for pie chart
-  Map<String, double> get carbonData => {
-    "Transportation": 30,
-    "Home Energy Use": 25,
-    "Diet": 20,
-    "Waste Management": 15,
-    "Other": 10,
-  };
+  void clearAnswers() {
+    state = [];
+  }
 }
 
-final answersProvider = StateNotifierProvider<AnswersProvider, List<Map<String, dynamic>>>(
-      (ref) => AnswersProvider(),
-);
+
+final answersProvider = StateNotifierProvider<AnswersNotifier, List<Map<String, String>>>((ref) {
+  return AnswersNotifier();
+});

@@ -73,6 +73,7 @@ flutter:
   assets:
      - assets/splash/
      - assets/carboncredits/
+     - assets/intial_img/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

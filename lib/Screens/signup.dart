@@ -71,6 +71,9 @@ class _Signup extends ConsumerState<Signup> {
         final token = data['token'];
         print(token);
         print("Sign up Successful");
+        
+        ref.read(tokenProvider.notifier).state = token;
+        // ref.read(answersProvider.notifier)..
         ref.read(userTokenProvider.notifier).setToken(token);
         Navigator.push(
           context,

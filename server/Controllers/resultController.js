@@ -5,8 +5,8 @@ import wrapAsync from "../Utils/wrapAsync.js";
 import jwt from "jsonwebtoken"
 import  Answer  from "../Models/Answer.js";
 import User from '../Models/User.js';
-const jwtSecret = "EcoCred#Carbon@X"
 
+const jwtSecret = process.env.jwtSecret
 
 const r1 = readline.createInterface({
     input: process.stdin,
@@ -97,5 +97,6 @@ export const result = wrapAsync(async(req,res)=>{
         'carbon_credits.last_tracked': currentDate.toLocaleString()
       };
     const updatedUser = await User.updateOne({ _id: userId }, { $set: updatedCarbonFootprint });
+    console.log(result)
     res.status(200).send(result)
 })
