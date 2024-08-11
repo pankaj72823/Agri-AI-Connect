@@ -1,15 +1,15 @@
 import multer, { diskStorage } from 'multer';
 import { extname as _extname } from 'path';
+import { storage } from './cloudConfig.js';
 
-
-const storage = diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/');  
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now() + _extname(file.originalname));  
-  }
-});
+// const storage = diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './uploads/');  
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.fieldname + '-' + Date.now() + _extname(file.originalname));  
+//   }
+// });
 
 // const fileFilter = (req, file, cb) => {
 
